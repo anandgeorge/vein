@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vein by wearefractal</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Vein</h1>
+        <p>RPC via WebSockets</p>
+        <p class="view"><a href="https://github.com/wearefractal/vein">View the Project on GitHub <small>wearefractal/vein</small></a></p>
+        <ul>
+          <li><a href="https://github.com/wearefractal/vein/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/wearefractal/vein/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/wearefractal/vein">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Information</h2>
+
+<table>
+<tr>
+<td>Package</td>
+<td>vein</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>WebSocket RPC</td>
+</tr>
+<tr>
+<td>Node Version</td>
+<td>&gt;= 0.4</td>
+</tr>
+</table><h2>Example</h2>
+
+<h3>Server</h3>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">Vein</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vein'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">().</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">rpc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vein</span><span class="p">(</span><span class="nx">server</span><span class="p">);</span>
+
+<span class="nx">rpc</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'greetings'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">send</span><span class="p">,</span> <span class="nx">socket</span><span class="p">,</span> <span class="nx">first</span><span class="p">,</span> <span class="nx">last</span><span class="p">){</span>
+  <span class="nx">send</span><span class="p">(</span><span class="s2">"Hey there "</span> <span class="o">+</span> <span class="nx">first</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nx">last</span><span class="o">!</span><span class="err">"</span><span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h3>Client</h3>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">vein</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vein</span><span class="p">();</span>
+<span class="nx">vein</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+  <span class="nx">vein</span><span class="p">.</span><span class="nx">greetings</span><span class="p">(</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Foobar"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">){</span>
+     <span class="c1">// res === "Hey there John Foobar!"</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>Usage</h2>
+
+<p>Documentation is horrible. Will update later.</p>
+
+<h3>Server</h3>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'http'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Vein</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vein'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">().</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">vein</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vein</span><span class="p">(</span><span class="nx">server</span><span class="p">,</span> <span class="p">{</span>
+  <span class="c1">//options go here</span>
+<span class="p">});</span>
+<span class="cm">/*</span>
+<span class="cm">  Valid options:</span>
+<span class="cm">  prefix - vein endpoint (default: "vein")</span>
+<span class="cm">  sessionName - cookie name (default: "VEINSESSID-[prefix]")</span>
+<span class="cm">  noTrack - disable pubsub for performance (default: false)</span>
+<span class="cm">  response_limit - reopen socket after this much data (default: 128k)</span>
+<span class="cm">*/</span>
+
+<span class="c1">// A service is a function that gets called every time a client calls it</span>
+<span class="c1">// The format is function (send, socket, args...)</span>
+<span class="c1">// args can be any JSON-friendly data sent from the client</span>
+<span class="c1">// You can pass any JSON-friendly objects as arguments to the send</span>
+<span class="c1">// and they will be applied to the callback on the client.</span>
+<span class="nx">vein</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'someService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">send</span><span class="p">,</span> <span class="nx">socket</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">send</span><span class="p">(</span><span class="s2">"Hey there "</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">" I got your number "</span> <span class="o">+</span> <span class="nx">num</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// The server can assign a session to the client via send.session.</span>
+<span class="c1">// Any services called will have access to the session value via socket.session</span>
+<span class="c1">// This session will persist between page loads/connects based on your settings</span>
+<span class="c1">// send.session is a simple way to set a tracking cookie not a session store</span>
+<span class="nx">vein</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'login'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">send</span><span class="p">,</span> <span class="nx">socket</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">username</span> <span class="o">===</span> <span class="s1">'username'</span> <span class="o">&amp;&amp;</span> <span class="nx">password</span> <span class="o">===</span> <span class="s1">'pass123'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">send</span><span class="p">.</span><span class="nx">session</span><span class="p">(</span><span class="s1">'success! (some unique key)'</span><span class="p">);</span>
+    <span class="nx">send</span><span class="p">();</span> <span class="c1">// Call the login callback with no error</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">send</span><span class="p">(</span><span class="s1">'Invalid username or password'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// If you have tracking enabled (noTrack=false) you can use send.all</span>
+<span class="c1">// to broadcast a message to all currently connected clients that are subscribed to the service</span>
+<span class="c1">// A hash of clients is available in vein.clients</span>
+<span class="nx">vein</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'someOtherService'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">send</span><span class="p">,</span> <span class="nx">socket</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">send</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h3>Browser Client</h3>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">vein</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vein</span><span class="p">({</span>
+  <span class="c1">//options go here</span>
+<span class="p">});</span>
+<span class="cm">/*</span>
+<span class="cm">  Valid options:</span>
+<span class="cm">  host - server running vein (default: location.origin)</span>
+<span class="cm">  prefix - vein endpoint (default: "vein")</span>
+<span class="cm">  sessionName - cookie name (default: "VEINSESSID-[prefix]")</span>
+<span class="cm">  sessionLength - time before cookie expires (default: session)</span>
+<span class="cm">  debug - extra information (default: false)</span>
+<span class="cm">*/</span>
+
+<span class="c1">//When the vein is ready this function will be called</span>
+<span class="nx">vein</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">services</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// services is an array of service names available to use</span>
+  <span class="c1">// Any code using vein should be kicked off here</span>
+  <span class="c1">// When calling a service the format is vein.&lt;service name&gt;(args..., callback)</span>
+  <span class="c1">// You can pass any JSON-friendly objects as arguments and they will be applied to the</span>
+  <span class="c1">// service on the server.</span>
+  <span class="nx">vein</span><span class="p">.</span><span class="nx">someService</span><span class="p">(</span><span class="s1">'john'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Prefixing a service with .subscribe allows the server to send unsolicited messages</span>
+  <span class="c1">// to the client. Subscribing to a service does not communicate to the server in any way.</span>
+  <span class="nx">vein</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">.</span><span class="nx">someOtherService</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// When the server assigns a session it is saved as a cookie with the client preferences.</span>
+  <span class="c1">// Make sure the client and server cookie preferences match.</span>
+  <span class="c1">// Session data can be accessed via .getSession() and .clearSession()</span>
+  <span class="nx">vein</span><span class="p">.</span><span class="nx">login</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'pass123'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">vein</span><span class="p">.</span><span class="nx">getSession</span><span class="p">());</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">vein</span><span class="p">.</span><span class="nx">clearSession</span><span class="p">());</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="c1">//If the vein is closed this function will be called</span>
+<span class="nx">vein</span><span class="p">.</span><span class="nx">close</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Connection lost!"</span><span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>More Examples</h2>
+
+<p>You can view a web-based chat example in the <a href="https://github.com/wearefractal/vein/tree/master/examples">example folder.</a></p>
+
+<h2>LICENSE</h2>
+
+<p>(MIT License)</p>
+
+<p>Copyright (c) 2012 Fractal <a href="mailto:contact@wearefractal.com">contact@wearefractal.com</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/wearefractal">wearefractal</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
